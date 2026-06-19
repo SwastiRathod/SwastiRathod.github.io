@@ -1,5 +1,14 @@
 body {
     font-family: Arial, sans-serif;
+    background-color: #f5f5f5;
+}
+
+.intro {
+    background-color: white;
+    width: 800px;
+    margin: 50px auto;
+    padding: 30px;
+    border: 2px solid black;
 }
 
 h1 {
