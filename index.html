@@ -1,47 +1,464 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <title>Physics, Coffee & Code</title>
-    <link rel="stylesheet" href="style.css">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>[Site Name] — A physics notebook</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Spectral:ital,wght@0,300;0,400;0,500;0,600;1,400&family=Lora:ital,wght@0,400;0,500;1,400&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ink: #15130F;
+    --panel: #1E1A13;
+    --panel-2: #221D15;
+    --parchment: #E8DDC3;
+    --parchment-dim: #a89a7c;
+    --brass: #C89552;
+    --brass-dim: #8a6a3a;
+    --cherenkov: #5FA0BD;
+    --line: #3a3225;
+    --red-thread: #a85c4a;
+  }
+
+  *{box-sizing:border-box; margin:0; padding:0;}
+  html{scroll-behavior:smooth;}
+
+  body{
+    background:
+      radial-gradient(ellipse 900px 500px at 85% -10%, rgba(95,160,189,0.07), transparent 60%),
+      var(--ink);
+    color:var(--parchment);
+    font-family:'Lora', serif;
+    font-size:17px;
+    line-height:1.7;
+    -webkit-font-smoothing:antialiased;
+  }
+
+  ::selection{ background:var(--brass); color:var(--ink); }
+  a{ color:inherit; }
+  .wrap{ max-width:1180px; margin:0 auto; padding:0 48px; }
+
+  /* ---------- NAV ---------- */
+  header{
+    position:sticky; top:0; z-index:50;
+    background:rgba(21,19,15,0.88);
+    backdrop-filter: blur(8px);
+    border-bottom:1px solid var(--line);
+  }
+  nav.wrap{ display:flex; align-items:center; justify-content:space-between; height:72px; }
+  .logotype{
+    font-family:'Spectral', serif; font-weight:500; font-size:22px; letter-spacing:0.01em;
+    display:flex; align-items:baseline; gap:8px;
+  }
+  .logotype .dot{
+    width:6px; height:6px; border-radius:50%; background:var(--cherenkov); display:inline-block;
+    box-shadow:0 0 8px 1px rgba(95,160,189,0.7); transform:translateY(-4px);
+  }
+  .navlinks{ display:flex; gap:32px; font-size:14px; color:var(--parchment-dim); }
+  .navlinks a{ text-decoration:none; position:relative; padding-bottom:4px; transition:color .2s; }
+  .navlinks a:hover{ color:var(--parchment); }
+  .navlinks a::after{
+    content:""; position:absolute; left:0; right:0; bottom:0; height:1px;
+    background:var(--brass); transform:scaleX(0); transform-origin:left; transition:transform .25s ease;
+  }
+  .navlinks a:hover::after{ transform:scaleX(1); }
+
+  /* ---------- HERO ---------- */
+  .hero{ position:relative; padding:96px 0 80px; overflow:hidden; border-bottom:1px solid var(--line); }
+  .hero .wrap{ display:grid; grid-template-columns:1.1fr 0.9fr; gap:40px; align-items:center; }
+  .eyebrow-line{ font-family:'JetBrains Mono', monospace; font-size:12.5px; color:var(--brass); letter-spacing:0.03em; margin-bottom:22px; }
+  h1.title{
+    font-family:'Spectral', serif; font-weight:600; font-size:clamp(48px, 6vw, 78px);
+    line-height:0.98; letter-spacing:-0.01em; color:var(--parchment);
+  }
+  h1.title em{ font-style:italic; font-weight:400; color:var(--cherenkov); }
+  .hero p.lede{ margin-top:26px; max-width:46ch; font-size:18px; color:var(--parchment-dim); }
+  .hero-meta{ margin-top:36px; display:flex; gap:34px; font-family:'JetBrains Mono', monospace; font-size:13px; color:var(--parchment-dim); }
+  .hero-meta div span{ display:block; color:var(--parchment); font-size:15px; margin-bottom:3px; }
+
+  .plot{ position:relative; aspect-ratio:1/1; display:flex; align-items:center; justify-content:center; }
+  .plot svg{ width:105%; height:105%; }
+
+  /* ---------- FACT STRIP ---------- */
+  .fact-strip{ border-bottom:1px solid var(--line); padding:26px 0; }
+  .fact-strip .wrap{ display:flex; align-items:center; gap:22px; }
+  .fact-strip .tag{
+    font-family:'JetBrains Mono', monospace; font-size:11.5px; color:var(--brass);
+    border:1px solid var(--brass-dim); padding:6px 10px; white-space:nowrap;
+  }
+  .fact-strip p{ font-family:'Spectral', serif; font-style:italic; font-size:17px; color:var(--parchment); }
+  .fact-strip .fact-src{ margin-left:auto; font-family:'JetBrains Mono', monospace; font-size:12px; color:var(--parchment-dim); white-space:nowrap; }
+
+  /* ---------- SECTION HEADS ---------- */
+  section.block{ padding:84px 0; border-bottom:1px solid var(--line); }
+  .section-label{ font-family:'JetBrains Mono', monospace; font-size:12.5px; color:var(--brass); margin-bottom:10px; }
+  .section-head{ font-family:'Spectral', serif; font-weight:500; font-size:32px; margin-bottom:6px; }
+  .section-sub{ color:var(--parchment-dim); max-width:60ch; font-size:15.5px; }
+  .section-top{ margin-bottom:44px; }
+
+  /* ---------- HORIZONTAL SCROLL ROWS ---------- */
+  .scroll-row{
+    display:flex; gap:22px; overflow-x:auto; padding:4px 4px 20px 4px;
+    scroll-snap-type:x proximity;
+  }
+  .scroll-row::-webkit-scrollbar{ height:6px; }
+  .scroll-row::-webkit-scrollbar-track{ background:transparent; }
+  .scroll-row::-webkit-scrollbar-thumb{ background:var(--line); border-radius:3px; }
+  .scroll-hint{
+    margin-top:6px; font-family:'JetBrains Mono', monospace; font-size:11.5px; color:var(--parchment-dim);
+    display:flex; align-items:center; gap:6px;
+  }
+
+  /* project card */
+  .proj-card{
+    flex:0 0 300px; scroll-snap-align:start;
+    background:var(--panel); border:1px solid var(--line); border-top:2px solid var(--brass);
+    padding:26px; display:flex; flex-direction:column; gap:16px;
+  }
+  .proj-card h4{ font-family:'Spectral', serif; font-weight:500; font-size:19px; line-height:1.3; }
+  .proj-card .row{ font-size:13.5px; }
+  .proj-card .row .k{
+    font-family:'JetBrains Mono', monospace; font-size:11px; color:var(--brass);
+    display:block; margin-bottom:3px; letter-spacing:0.02em;
+  }
+  .proj-card .row .v{ color:var(--parchment-dim); }
+  .proj-card .gh{
+    margin-top:auto; padding-top:14px; border-top:1px solid var(--line);
+    font-family:'JetBrains Mono', monospace; font-size:12.5px; color:var(--parchment);
+    display:flex; justify-content:space-between; text-decoration:none;
+  }
+  .proj-card.ghost{
+    border-top:2px dashed var(--brass-dim); justify-content:center; align-items:center; text-align:center;
+    color:var(--parchment-dim); font-family:'JetBrains Mono', monospace; font-size:13px;
+  }
+
+  /* what-if / q&a card */
+  .qa-card{
+    flex:0 0 300px; scroll-snap-align:start;
+    background:var(--panel); border:1px solid var(--line); border-top:2px solid var(--cherenkov);
+    padding:26px; display:flex; flex-direction:column; gap:14px;
+  }
+  .qa-card.thread{ border-top-color:var(--red-thread); }
+  .qa-card .q{ font-family:'Spectral', serif; font-style:italic; font-weight:500; font-size:18px; color:var(--parchment); }
+  .qa-card .a{ font-size:14.5px; color:var(--parchment-dim); }
+
+  /* article list */
+  .article-list{ margin-top:8px; }
+  .article-item{
+    display:flex; justify-content:space-between; align-items:center; gap:20px;
+    padding:22px 4px; border-top:1px solid var(--line); text-decoration:none; color:var(--parchment);
+    transition:padding-left .18s ease, color .18s ease;
+  }
+  .article-item:last-child{ border-bottom:1px solid var(--line); }
+  .article-item:hover{ padding-left:14px; color:var(--brass); }
+  .article-item .meta{ font-family:'JetBrains Mono', monospace; font-size:12px; color:var(--parchment-dim); margin-bottom:6px; }
+  .article-item h4{ font-family:'Spectral', serif; font-weight:500; font-size:18px; }
+  .article-item .arrow{ font-family:'JetBrains Mono', monospace; font-size:14px; flex-shrink:0; }
+
+  /* resources shelf */
+  .shelf-list{ margin-top:8px; display:grid; grid-template-columns:repeat(2, 1fr); gap:0; border-top:1px solid var(--line); }
+  .shelf-item{
+    padding:20px 22px; border-bottom:1px solid var(--line); display:flex; justify-content:space-between; align-items:center;
+    text-decoration:none; color:var(--parchment); transition:padding-left .18s ease, color .18s ease;
+  }
+  .shelf-item:nth-child(odd){ border-right:1px solid var(--line); }
+  .shelf-item:hover{ padding-left:30px; color:var(--brass); }
+  .shelf-item .n{ font-family:'JetBrains Mono', monospace; font-size:12px; color:var(--parchment-dim); margin-right:14px; }
+  .shelf-item .t{ font-family:'Spectral', serif; font-size:16.5px; flex:1; }
+  .shelf-item .c{ font-size:13px; color:var(--parchment-dim); }
+
+  /* ---------- CONTACT ---------- */
+  .contact{ padding:100px 0 80px; text-align:center; border-bottom:none; }
+  .contact .section-label{ justify-content:center; display:flex; }
+  .contact h2{
+    font-family:'Spectral', serif; font-weight:500; font-style:italic; font-size:40px; color:var(--parchment);
+    margin:14px 0 30px;
+  }
+  .contact-rows{ display:flex; justify-content:center; gap:38px; flex-wrap:wrap; font-family:'JetBrains Mono', monospace; font-size:14px; }
+  .contact-rows a{ text-decoration:none; color:var(--parchment-dim); border-bottom:1px dotted var(--line); padding-bottom:2px; transition:color .2s; }
+  .contact-rows a:hover{ color:var(--brass); }
+
+  footer{ border-top:1px solid var(--line); padding:26px 0; font-size:13px; color:var(--parchment-dim); display:flex; justify-content:space-between; }
+
+  @media (max-width: 860px){
+    .wrap{ padding:0 24px; }
+    .hero .wrap{ grid-template-columns:1fr; }
+    .plot{ max-width:320px; margin:40px auto 0; }
+    .navlinks{ display:none; }
+    .shelf-list{ grid-template-columns:1fr; }
+    .shelf-item:nth-child(odd){ border-right:none; }
+    .fact-strip .wrap{ flex-wrap:wrap; }
+    .fact-strip .fact-src{ margin-left:0; }
+  }
+</style>
 </head>
-
 <body>
-<div class="intro"> <!--div is the type of element and class intro is the label i gave it-->
-    
-<h1>Notes on Physics, Machine Learning and Data Analysis</h1>
 
-<p>
-A collection of resources, projects, concepts, and papers and ideas worth revisiting.
-</p>
+<header>
+  <nav class="wrap">
+    <div class="logotype">[Site Name]<span class="dot"></span></div>
+    <div class="navlinks">
+      <a href="#projects">Projects</a>
+      <a href="#whatif">What If</a>
+      <a href="#articles">Articles</a>
+      <a href="#resources">Resources</a>
+      <a href="#contact">Contact</a>
+    </div>
+  </nav>
+</header>
 
+<!-- ================= HERO ================= -->
+<section class="hero">
+  <div class="wrap">
+    <div>
+      <div class="eyebrow-line">physics, collected — particle, astro, cosmo &amp; everything between</div>
+      <h1 class="title">A notebook<br>for <em>physics</em>.</h1>
+      <p class="lede">Field notes, resources and half-finished thoughts from studying how the universe holds together — one experiment, one equation, one late night at a time.</p>
+      <div class="hero-meta">
+        <div><span>[X] years</span>in the field</div>
+        <div><span>[Area]</span>current focus</div>
+        <div><span>[N]</span>notes and counting</div>
+      </div>
+    </div>
+    <div class="plot">
+      <svg viewBox="0 0 400 400">
+        <!-- faint background pile-up scatter -->
+        <g stroke="var(--line)" stroke-width="1" opacity="0.55">
+          <circle cx="200" cy="200" r="150" fill="none"/>
+          <circle cx="200" cy="200" r="185" fill="none"/>
+          <line x1="20" y1="60" x2="140" y2="140"/>
+          <line x1="380" y1="70" x2="255" y2="150"/>
+          <line x1="30" y1="330" x2="130" y2="255"/>
+          <line x1="370" y1="340" x2="265" y2="260"/>
+          <line x1="10" y1="200" x2="90" y2="205"/>
+          <line x1="390" y1="195" x2="315" y2="200"/>
+        </g>
+        <g stroke="var(--cherenkov)" stroke-width="1" opacity="0.3">
+          <line x1="60" y1="20" x2="150" y2="110"/>
+          <line x1="340" y1="30" x2="250" y2="115"/>
+          <line x1="70" y1="380" x2="145" y2="290"/>
+        </g>
 
+        <!-- confined trio: quarks + gluon springs -->
+        <g fill="none" stroke="var(--brass)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M200,80 L215,120 L180,150 L205,190 L165,225 L190,260 L95,300"/>
+        </g>
+        <g fill="none" stroke="var(--brass)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M200,80 L185,120 L220,150 L195,190 L235,225 L210,260 L305,300"/>
+        </g>
+        <g fill="none" stroke="var(--cherenkov)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M95,300 L130,280 L160,315 L200,285 L240,315 L270,280 L305,300"/>
+        </g>
 
-<p>
-This website is under construction.
-</p>
+        <circle cx="200" cy="80" r="7" fill="var(--brass)"/>
+        <circle cx="95" cy="300" r="7" fill="var(--cherenkov)"/>
+        <circle cx="305" cy="300" r="7" fill="var(--brass)"/>
+      </svg>
+    </div>
+  </div>
+</section>
 
-</div>
+<!-- ================= FACT STRIP ================= -->
+<section class="fact-strip">
+  <div class="wrap">
+    <div class="tag">fact of the day</div>
+    <p>"Neutron stars are so dense that a single teaspoon of their material would weigh about as much as a mountain."</p>
+    <div class="fact-src">astrophysics · 10 sep</div>
+  </div>
+</section>
 
-<div class="section">
-    <h2>Fact of the week</h2>
-</div>
+<!-- ================= PROJECTS ================= -->
+<section class="block" id="projects">
+  <div class="wrap">
+    <div class="section-top">
+      <div class="section-label">selected work</div>
+      <div class="section-head">Projects</div>
+      <div class="section-sub">A running shelf of things built, broken, and rebuilt — analysis code, detector studies, and side experiments.</div>
+    </div>
 
-<div class="section">
-    <h2>Projects</h2>
-</div>
+    <div class="scroll-row">
+      <div class="proj-card">
+        <h4>CMS Dark Photon Analysis</h4>
+        <div class="row"><span class="k">what</span><span class="v">[ one line on the analysis ]</span></div>
+        <div class="row"><span class="k">why</span><span class="v">[ the motivating question ]</span></div>
+        <div class="row"><span class="k">tools</span><span class="v">[ ROOT, Python, ... ]</span></div>
+        <div class="row"><span class="k">learned</span><span class="v">[ the one thing that stuck ]</span></div>
+        <a href="#" class="gh"><span>view on GitHub</span><span>→</span></a>
+      </div>
 
-<div class="section">
-    <h2>Resources</h2>
-</div>
+      <div class="proj-card">
+        <h4>HGCROC Noise / Pedestal Study</h4>
+        <div class="row"><span class="k">what</span><span class="v">[ one line on the study ]</span></div>
+        <div class="row"><span class="k">why</span><span class="v">[ calibration problem it solves ]</span></div>
+        <div class="row"><span class="k">tools</span><span class="v">ROOT · detector electronics</span></div>
+        <div class="row"><span class="k">learned</span><span class="v">[ the one thing that stuck ]</span></div>
+        <a href="#" class="gh"><span>view on GitHub</span><span>→</span></a>
+      </div>
 
-<div class="section">
-    <h2>Articles</h2>
-</div>
+      <div class="proj-card">
+        <h4>CMS Open Data ML</h4>
+        <div class="row"><span class="k">what</span><span class="v">MiniAOD → NanoAOD → features → classifier</span></div>
+        <div class="row"><span class="k">why</span><span class="v">[ what the classifier is separating ]</span></div>
+        <div class="row"><span class="k">tools</span><span class="v">Python · scikit-learn / XGBoost</span></div>
+        <div class="row"><span class="k">learned</span><span class="v">AUC = [ 0.__ ]</span></div>
+        <a href="#" class="gh"><span>view on GitHub</span><span>→</span></a>
+      </div>
 
-<div class="section">
-    <h2>Github & Contact</h2>
-</div>
+      <div class="proj-card">
+        <h4>Python / ML Experiments</h4>
+        <div class="row"><span class="k">what</span><span class="v">[ smaller notebooks &amp; scripts ]</span></div>
+        <div class="row"><span class="k">why</span><span class="v">[ learning by breaking things ]</span></div>
+        <div class="row"><span class="k">tools</span><span class="v">Python · PyTorch / sklearn</span></div>
+        <div class="row"><span class="k">learned</span><span class="v">[ the one thing that stuck ]</span></div>
+        <a href="#" class="gh"><span>view on GitHub</span><span>→</span></a>
+      </div>
 
-    
+      <div class="proj-card ghost">
+        <div>
+          <div style="font-size:22px; margin-bottom:10px;">+</div>
+          Small hardware projects<br>
+          <span style="font-size:12px;">Raspberry Pi / Arduino / small FPGA — coming later</span>
+        </div>
+      </div>
+    </div>
+    <div class="scroll-hint">← scroll sideways →</div>
+  </div>
+</section>
+
+<!-- ================= WHAT IF ================= -->
+<section class="block" id="whatif">
+  <div class="wrap">
+    <div class="section-top">
+      <div class="section-label">idle questions</div>
+      <div class="section-head">What if...?</div>
+      <div class="section-sub">Small speculative questions, answered in a few sentences — the kind that come up mid-shift or mid-problem-set.</div>
+    </div>
+
+    <div class="scroll-row">
+      <div class="qa-card">
+        <div class="q">What if the Higgs field switched off for a second?</div>
+        <div class="a">[ short paragraph answer — placeholder ]</div>
+      </div>
+      <div class="qa-card">
+        <div class="q">What if neutrinos had zero mass?</div>
+        <div class="a">[ short paragraph answer — placeholder ]</div>
+      </div>
+      <div class="qa-card">
+        <div class="q">What if you could see gluon fields directly?</div>
+        <div class="a">[ short paragraph answer — placeholder ]</div>
+      </div>
+      <div class="qa-card">
+        <div class="q">What if the LHC ran at twice the energy?</div>
+        <div class="a">[ short paragraph answer — placeholder ]</div>
+      </div>
+    </div>
+    <div class="scroll-hint">← scroll sideways →</div>
+  </div>
+</section>
+
+<!-- ================= ARTICLES ================= -->
+<section class="block" id="articles">
+  <div class="wrap">
+    <div class="section-top">
+      <div class="section-label">longer reads</div>
+      <div class="section-head">Articles</div>
+      <div class="section-sub">Longer write-ups, linked out to the full piece.</div>
+    </div>
+
+    <div class="article-list">
+      <a href="#" class="article-item">
+        <div>
+          <div class="meta">[ topic ] · [ month year ]</div>
+          <h4>[ Article title — placeholder ]</h4>
+        </div>
+        <span class="arrow">read →</span>
+      </a>
+      <a href="#" class="article-item">
+        <div>
+          <div class="meta">[ topic ] · [ month year ]</div>
+          <h4>[ Article title — placeholder ]</h4>
+        </div>
+        <span class="arrow">read →</span>
+      </a>
+      <a href="#" class="article-item">
+        <div>
+          <div class="meta">[ topic ] · [ month year ]</div>
+          <h4>[ Article title — placeholder ]</h4>
+        </div>
+        <span class="arrow">read →</span>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- ================= RESOURCES ================= -->
+<section class="block" id="resources">
+  <div class="wrap">
+    <div class="section-top">
+      <div class="section-label">the reading room</div>
+      <div class="section-head">Resources</div>
+      <div class="section-sub">Material worth returning to — updated whenever something earns a place here.</div>
+    </div>
+    <div class="shelf-list">
+      <a href="#" class="shelf-item"><span class="n">01</span><span class="t">Lecture notes</span><span class="c">QFT, detector physics</span></a>
+      <a href="#" class="shelf-item"><span class="n">02</span><span class="t">Problem sets</span><span class="c">with worked solutions</span></a>
+      <a href="#" class="shelf-item"><span class="n">03</span><span class="t">Papers I return to</span><span class="c">annotated, not just linked</span></a>
+      <a href="#" class="shelf-item"><span class="n">04</span><span class="t">Tools &amp; simulations</span><span class="c">ROOT, Geant4, notebooks</span></a>
+    </div>
+  </div>
+</section>
+
+<!-- ================= CMS Q&A ================= -->
+<section class="block" id="cmsqa">
+  <div class="wrap">
+    <div class="section-top">
+      <div class="section-label">from the experiment</div>
+      <div class="section-head">CMS, explained</div>
+      <div class="section-sub">Short answers to questions people actually ask about working on a collider experiment.</div>
+    </div>
+
+    <div class="scroll-row">
+      <div class="qa-card thread">
+        <div class="q">What does a shift in the control room look like?</div>
+        <div class="a">[ short paragraph answer — placeholder ]</div>
+      </div>
+      <div class="qa-card thread">
+        <div class="q">How is data actually filtered from a collision?</div>
+        <div class="a">[ short paragraph answer — placeholder ]</div>
+      </div>
+      <div class="qa-card thread">
+        <div class="q">What's a "trigger" and why does it matter so much?</div>
+        <div class="a">[ short paragraph answer — placeholder ]</div>
+      </div>
+      <div class="qa-card thread">
+        <div class="q">How big is CMS, really?</div>
+        <div class="a">[ short paragraph answer — placeholder ]</div>
+      </div>
+    </div>
+    <div class="scroll-hint">← scroll sideways →</div>
+  </div>
+</section>
+
+<!-- ================= CONTACT ================= -->
+<section class="contact" id="contact">
+  <div class="wrap">
+    <div class="section-label">get in touch</div>
+    <h2>[ Your Name ]</h2>
+    <div class="contact-rows">
+      <a href="#">[ email ]</a>
+      <a href="#">[ GitHub ]</a>
+      <a href="#">[ LinkedIn ]</a>
+      <a href="#">[ CV / arXiv ]</a>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap" style="display:flex; justify-content:space-between; width:100%;">
+    <span>[Site Name] — a physics notebook</span>
+    <span>built by hand, mostly at night</span>
+  </div>
+</footer>
+
 </body>
 </html>
