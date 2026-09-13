@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>[Site Name] — A physics notebook</title>
+<title>Five Sigma — Swasti Rathod's physics notebook</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Spectral:ital,wght@0,300;0,400;0,500;0,600;1,400&family=Lora:ital,wght@0,400;0,500;1,400&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
@@ -95,6 +95,10 @@
   .section-head{ font-family:'Spectral', serif; font-weight:500; font-size:32px; margin-bottom:6px; }
   .section-sub{ color:var(--parchment-dim); max-width:60ch; font-size:15.5px; }
   .section-top{ margin-bottom:44px; }
+  .wip-tag{
+    display:inline-block; margin-top:14px; font-family:'JetBrains Mono', monospace; font-size:11.5px;
+    color:var(--red-thread); border:1px dashed var(--red-thread); padding:5px 10px; opacity:0.85;
+  }
 
   /* ---------- HORIZONTAL SCROLL ROWS ---------- */
   .scroll-row{
@@ -153,6 +157,7 @@
   .article-item:hover{ padding-left:14px; color:var(--brass); }
   .article-item .meta{ font-family:'JetBrains Mono', monospace; font-size:12px; color:var(--parchment-dim); margin-bottom:6px; }
   .article-item h4{ font-family:'Spectral', serif; font-weight:500; font-size:18px; }
+  .article-item p.blurb{ margin-top:6px; font-size:14px; color:var(--parchment-dim); max-width:52ch; }
   .article-item .arrow{ font-family:'JetBrains Mono', monospace; font-size:14px; flex-shrink:0; }
 
   /* resources shelf */
@@ -196,7 +201,7 @@
 
 <header>
   <nav class="wrap">
-    <div class="logotype">[Site Name]<span class="dot"></span></div>
+    <div class="logotype">Five Sigma<span class="dot"></span></div>
     <div class="navlinks">
       <a href="#projects">Projects</a>
       <a href="#whatif">What If</a>
@@ -211,48 +216,25 @@
 <section class="hero">
   <div class="wrap">
     <div>
-      <div class="eyebrow-line">physics, collected — particle, astro, cosmo &amp; everything between</div>
+      <div class="eyebrow-line">physics, coffee, code — and everything in between</div>
       <h1 class="title">A notebook<br>for <em>physics</em>.</h1>
       <p class="lede">Field notes, resources and half-finished thoughts from studying how the universe holds together — one experiment, one equation, one late night at a time.</p>
       <div class="hero-meta">
-        <div><span>[X] years</span>in the field</div>
-        <div><span>[Area]</span>current focus</div>
-        <div><span>[N]</span>notes and counting</div>
+        <div><span>M.Sc. Physics</span>SVNIT, 2025</div>
+        <div><span>CMS Collaboration</span>current focus</div>
+        <div><span>Dark photon</span>thesis search</div>
       </div>
     </div>
     <div class="plot">
-      <svg viewBox="0 0 400 400">
-        <!-- faint background pile-up scatter -->
-        <g stroke="var(--line)" stroke-width="1" opacity="0.55">
-          <circle cx="200" cy="200" r="150" fill="none"/>
-          <circle cx="200" cy="200" r="185" fill="none"/>
-          <line x1="20" y1="60" x2="140" y2="140"/>
-          <line x1="380" y1="70" x2="255" y2="150"/>
-          <line x1="30" y1="330" x2="130" y2="255"/>
-          <line x1="370" y1="340" x2="265" y2="260"/>
-          <line x1="10" y1="200" x2="90" y2="205"/>
-          <line x1="390" y1="195" x2="315" y2="200"/>
-        </g>
-        <g stroke="var(--cherenkov)" stroke-width="1" opacity="0.3">
-          <line x1="60" y1="20" x2="150" y2="110"/>
-          <line x1="340" y1="30" x2="250" y2="115"/>
-          <line x1="70" y1="380" x2="145" y2="290"/>
-        </g>
-
-        <!-- confined trio: quarks + gluon springs -->
-        <g fill="none" stroke="var(--brass)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-          <path d="M200,80 L215,120 L180,150 L205,190 L165,225 L190,260 L95,300"/>
-        </g>
-        <g fill="none" stroke="var(--brass)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-          <path d="M200,80 L185,120 L220,150 L195,190 L235,225 L210,260 L305,300"/>
-        </g>
-        <g fill="none" stroke="var(--cherenkov)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-          <path d="M95,300 L130,280 L160,315 L200,285 L240,315 L270,280 L305,300"/>
-        </g>
-
-        <circle cx="200" cy="80" r="7" fill="var(--brass)"/>
-        <circle cx="95" cy="300" r="7" fill="var(--cherenkov)"/>
-        <circle cx="305" cy="300" r="7" fill="var(--brass)"/>
+      <svg viewBox="0 0 680 400">
+        <path d="M80,340 C160,300 180,180 300,160 C420,140 440,60 560,50" fill="none" stroke="#C89552" stroke-width="1.6" opacity="0.9"/>
+        <path d="M110,80 C200,120 220,220 340,240 C460,260 470,340 580,360" fill="none" stroke="#5FA0BD" stroke-width="1.4" opacity="0.8"/>
+        <path d="M60,200 C180,190 260,110 400,130 C500,145 540,220 620,210" fill="none" stroke="#8a6a3a" stroke-width="1" opacity="0.45"/>
+        <path d="M180,360 C260,320 300,260 400,270 C480,278 500,200 600,150" fill="none" stroke="#a85c4a" stroke-width="1.2" opacity="0.55"/>
+        <circle cx="300" cy="160" r="4" fill="#e8ddc3" opacity="0.9"/>
+        <circle cx="340" cy="240" r="3" fill="#e8ddc3" opacity="0.6"/>
+        <circle cx="560" cy="50" r="3" fill="#C89552" opacity="0.8"/>
+        <circle cx="580" cy="360" r="3" fill="#5FA0BD" opacity="0.7"/>
       </svg>
     </div>
   </div>
@@ -262,8 +244,8 @@
 <section class="fact-strip">
   <div class="wrap">
     <div class="tag">fact of the day</div>
-    <p>"Neutron stars are so dense that a single teaspoon of their material would weigh about as much as a mountain."</p>
-    <div class="fact-src">astrophysics · 10 sep</div>
+    <p>"Protons in the LHC circle the 27 km ring roughly 11,000 times a second — close enough to the speed of light that a lap takes about 89 microseconds."</p>
+    <div class="fact-src">particle physics · 13 sep</div>
   </div>
 </section>
 
@@ -273,43 +255,61 @@
     <div class="section-top">
       <div class="section-label">selected work</div>
       <div class="section-head">Projects</div>
-      <div class="section-sub">A running shelf of things built, broken, and rebuilt — analysis code, detector studies, and side experiments.</div>
+      <div class="section-sub">A running shelf of things built, analysed, and written up — from the CMS collaboration and from smaller side projects.</div>
     </div>
 
     <div class="scroll-row">
       <div class="proj-card">
-        <h4>CMS Dark Photon Analysis</h4>
-        <div class="row"><span class="k">what</span><span class="v">[ one line on the analysis ]</span></div>
-        <div class="row"><span class="k">why</span><span class="v">[ the motivating question ]</span></div>
-        <div class="row"><span class="k">tools</span><span class="v">[ ROOT, Python, ... ]</span></div>
-        <div class="row"><span class="k">learned</span><span class="v">[ the one thing that stuck ]</span></div>
+        <h4>CMS Dark Photon Search</h4>
+        <div class="row"><span class="k">what</span><span class="v">Searching for an exotic dark photon decaying to electrons, using CMS Run 3 parking data.</span></div>
+        <div class="row"><span class="k">why</span><span class="v">Probing physics beyond the Standard Model through leptonic final states at the LHC.</span></div>
+        <div class="row"><span class="k">tools</span><span class="v">ROOT, C++, MadGraph, Pythia, Python, CMSSW</span></div>
+        <div class="row"><span class="k">learned</span><span class="v">Derived trigger efficiency and signal yield for Run 3 parking data.</span></div>
         <a href="#" class="gh"><span>view on GitHub</span><span>→</span></a>
       </div>
 
       <div class="proj-card">
-        <h4>HGCROC Noise / Pedestal Study</h4>
-        <div class="row"><span class="k">what</span><span class="v">[ one line on the study ]</span></div>
-        <div class="row"><span class="k">why</span><span class="v">[ calibration problem it solves ]</span></div>
-        <div class="row"><span class="k">tools</span><span class="v">ROOT · detector electronics</span></div>
-        <div class="row"><span class="k">learned</span><span class="v">[ the one thing that stuck ]</span></div>
+        <h4>HGCAL Pedestal &amp; Noise Calibration</h4>
+        <div class="row"><span class="k">what</span><span class="v">Calibration work on the High Granularity Calorimeter's HGCROC readout electronics.</span></div>
+        <div class="row"><span class="k">why</span><span class="v">Clean pedestal and noise subtraction underpins every measurement built on top of it.</span></div>
+        <div class="row"><span class="k">tools</span><span class="v">ROOT, detector electronics</span></div>
+        <div class="row"><span class="k">learned</span><span class="v">Pedestal and common-mode noise subtraction methods for HGCROC readouts.</span></div>
         <a href="#" class="gh"><span>view on GitHub</span><span>→</span></a>
       </div>
 
       <div class="proj-card">
-        <h4>CMS Open Data ML</h4>
-        <div class="row"><span class="k">what</span><span class="v">MiniAOD → NanoAOD → features → classifier</span></div>
-        <div class="row"><span class="k">why</span><span class="v">[ what the classifier is separating ]</span></div>
-        <div class="row"><span class="k">tools</span><span class="v">Python · scikit-learn / XGBoost</span></div>
-        <div class="row"><span class="k">learned</span><span class="v">AUC = [ 0.__ ]</span></div>
+        <h4>CMS Open Data — B Meson Classifier</h4>
+        <div class="row"><span class="k">what</span><span class="v">MiniAOD → secondary-vertex features → Random Forest / Gradient Boosting classifier.</span></div>
+        <div class="row"><span class="k">why</span><span class="v">Separating real B meson signals from background in CERN Open Data.</span></div>
+        <div class="row"><span class="k">tools</span><span class="v">Python (scikit-learn, pandas, numpy), C++, CMSSW, Docker</span></div>
+        <div class="row"><span class="k">learned</span><span class="v">89% signal efficiency identifying B meson signals.</span></div>
         <a href="#" class="gh"><span>view on GitHub</span><span>→</span></a>
       </div>
 
       <div class="proj-card">
-        <h4>Python / ML Experiments</h4>
-        <div class="row"><span class="k">what</span><span class="v">[ smaller notebooks &amp; scripts ]</span></div>
-        <div class="row"><span class="k">why</span><span class="v">[ learning by breaking things ]</span></div>
-        <div class="row"><span class="k">tools</span><span class="v">Python · PyTorch / sklearn</span></div>
-        <div class="row"><span class="k">learned</span><span class="v">[ the one thing that stuck ]</span></div>
+        <h4>Higgs → Diphoton (Inert Higgs Doublet)</h4>
+        <div class="row"><span class="k">what</span><span class="v">Modelled the Higgs-to-diphoton decay under the Inert Higgs Doublet Model.</span></div>
+        <div class="row"><span class="k">why</span><span class="v">Testing a beyond-Standard-Model extension against a very clean experimental channel.</span></div>
+        <div class="row"><span class="k">tools</span><span class="v">SARAH, SPheno, CalcHEP, Pythia, Delphes, ROOT</span></div>
+        <div class="row"><span class="k">learned</span><span class="v">Calculated the effective couplings and loop vertices driving the decay rate.</span></div>
+        <a href="#" class="gh"><span>view on GitHub</span><span>→</span></a>
+      </div>
+
+      <div class="proj-card">
+        <h4>Quark Confinement — Lattice QCD</h4>
+        <div class="row"><span class="k">what</span><span class="v">Derived the potential energy of a two-quark system under confinement.</span></div>
+        <div class="row"><span class="k">why</span><span class="v">Confinement is why free quarks are never seen alone.</span></div>
+        <div class="row"><span class="k">tools</span><span class="v">Julia, Python</span></div>
+        <div class="row"><span class="k">learned</span><span class="v">How the QCD potential grows with quark separation, and what that implies.</span></div>
+        <a href="#" class="gh"><span>view on GitHub</span><span>→</span></a>
+      </div>
+
+      <div class="proj-card">
+        <h4>Neutrinos — Dirac or Majorana?</h4>
+        <div class="row"><span class="k">what</span><span class="v">Compared the Dirac and Majorana pictures of neutrino mass.</span></div>
+        <div class="row"><span class="k">why</span><span class="v">The answer decides whether a neutrino is its own antiparticle — still open experimentally.</span></div>
+        <div class="row"><span class="k">tools</span><span class="v">Mathematica</span></div>
+        <div class="row"><span class="k">learned</span><span class="v">How the mass mechanism connects to neutrinoless double beta decay searches.</span></div>
         <a href="#" class="gh"><span>view on GitHub</span><span>→</span></a>
       </div>
 
@@ -336,20 +336,24 @@
 
     <div class="scroll-row">
       <div class="qa-card">
-        <div class="q">What if the Higgs field switched off for a second?</div>
-        <div class="a">[ short paragraph answer — placeholder ]</div>
+        <div class="q">What if the Higgs field switched off?</div>
+        <div class="a">Every fundamental particle that gets its mass from it — electrons, quarks — would instantly become massless. Atoms couldn't hold together, and chemistry as we know it would stop existing within a fraction of a second.</div>
       </div>
       <div class="qa-card">
-        <div class="q">What if neutrinos had zero mass?</div>
-        <div class="a">[ short paragraph answer — placeholder ]</div>
+        <div class="q">What if protons could decay?</div>
+        <div class="a">Grand unified theories predict it should happen, but experiments like Super-Kamiokande have only set a lower limit of over 10³⁴ years — far longer than the age of the universe. If confirmed, it would mean all matter is temporary.</div>
       </div>
       <div class="qa-card">
-        <div class="q">What if you could see gluon fields directly?</div>
-        <div class="a">[ short paragraph answer — placeholder ]</div>
+        <div class="q">What if there were no strong force?</div>
+        <div class="a">Quarks would never bind into protons and neutrons, so no atomic nuclei — and nothing heavier than a lone electron and a free-floating quark — could ever form.</div>
       </div>
       <div class="qa-card">
-        <div class="q">What if the LHC ran at twice the energy?</div>
-        <div class="a">[ short paragraph answer — placeholder ]</div>
+        <div class="q">What if space had one extra dimension?</div>
+        <div class="a">Gravity would weaken faster with distance, and stable orbits like Earth's around the Sun likely couldn't exist. It's part of why three spatial dimensions may not be an accident.</div>
+      </div>
+      <div class="qa-card">
+        <div class="q">What if neutrinos truly had zero mass?</div>
+        <div class="a">That was the original Standard Model assumption. But neutrino oscillation experiments proved otherwise — flavour-changing behaviour is only possible if neutrinos carry at least a tiny mass.</div>
       </div>
     </div>
     <div class="scroll-hint">← scroll sideways →</div>
@@ -368,26 +372,14 @@
     <div class="article-list">
       <a href="#" class="article-item">
         <div>
-          <div class="meta">[ topic ] · [ month year ]</div>
-          <h4>[ Article title — placeholder ]</h4>
-        </div>
-        <span class="arrow">read →</span>
-      </a>
-      <a href="#" class="article-item">
-        <div>
-          <div class="meta">[ topic ] · [ month year ]</div>
-          <h4>[ Article title — placeholder ]</h4>
-        </div>
-        <span class="arrow">read →</span>
-      </a>
-      <a href="#" class="article-item">
-        <div>
-          <div class="meta">[ topic ] · [ month year ]</div>
-          <h4>[ Article title — placeholder ]</h4>
+          <div class="meta">statistics · particle physics</div>
+          <h4>Why physicists wait for five sigma before saying "discovery"</h4>
+          <p class="blurb">The reasoning behind the field's strict statistical bar — and why a 3σ bump gets a conference talk while a 5σ bump gets a headline.</p>
         </div>
         <span class="arrow">read →</span>
       </a>
     </div>
+    <div class="wip-tag">more articles coming soon</div>
   </div>
 </section>
 
@@ -405,6 +397,7 @@
       <a href="#" class="shelf-item"><span class="n">03</span><span class="t">Papers I return to</span><span class="c">annotated, not just linked</span></a>
       <a href="#" class="shelf-item"><span class="n">04</span><span class="t">Tools &amp; simulations</span><span class="c">ROOT, Geant4, notebooks</span></a>
     </div>
+    <div class="wip-tag">shelves still being stocked — work in progress</div>
   </div>
 </section>
 
@@ -436,6 +429,7 @@
       </div>
     </div>
     <div class="scroll-hint">← scroll sideways →</div>
+    <div class="wip-tag">answers are placeholders — the real ones are coming</div>
   </div>
 </section>
 
@@ -443,19 +437,19 @@
 <section class="contact" id="contact">
   <div class="wrap">
     <div class="section-label">get in touch</div>
-    <h2>[ Your Name ]</h2>
+    <h2>Swasti Rathod</h2>
     <div class="contact-rows">
-      <a href="#">[ email ]</a>
-      <a href="#">[ GitHub ]</a>
-      <a href="#">[ LinkedIn ]</a>
-      <a href="#">[ CV / arXiv ]</a>
+      <a href="mailto:rathodswasti@gmail.com">rathodswasti@gmail.com</a>
+      <a href="https://github.com/SwastiRathod">GitHub</a>
+      <a href="#">LinkedIn</a>
+      <a href="#">CV / arXiv</a>
     </div>
   </div>
 </section>
 
 <footer>
   <div class="wrap" style="display:flex; justify-content:space-between; width:100%;">
-    <span>[Site Name] — a physics notebook</span>
+    <span>Five Sigma — a physics notebook, still being built</span>
     <span>built by hand, mostly at night</span>
   </div>
 </footer>
